@@ -4,9 +4,9 @@
 'use strict';
 
 import { localStorageWrapper } from './utils/local_storage_wrapper.js';
+import { Ticker } from "pixi.js"
 
 /** @typedef {import('./pikavolley.js').PikachuVolleyball} PikachuVolleyball */
-/** @typedef {import('@pixi/ticker').Ticker} Ticker */
 /** @typedef {{graphic?: string, bgm?: string, sfx?: string, speed?: string, winningScore?: string}} Options */
 
 /**

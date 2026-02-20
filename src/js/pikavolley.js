@@ -6,9 +6,7 @@ import { GROUND_HALF_WIDTH, PikaPhysics } from './physics.js';
 import { MenuView, GameView, FadeInOut, IntroView } from './view.js';
 import { PikaKeyboard } from './keyboard.js';
 import { PikaAudio } from './audio.js';
-
-/** @typedef {import('@pixi/display').Container} Container */
-/** @typedef {import('@pixi/loaders').LoaderResource} LoaderResource */
+import { Container } from "pixi.js";
 
 /** @typedef GameState @type {function():void} */
 
@@ -19,7 +17,7 @@ export class PikachuVolleyball {
   /**
    * Create a Pikachu Volleyball game which includes physics, view, audio
    * @param {Container} stage container which is rendered by PIXI.Renderer or PIXI.CanvasRenderer
-   * @param {Object.<string,LoaderResource>} resources resources property of the PIXI.Loader object which is used for loading the game resources
+   * @param resources resources property of the PIXI.Loader object which is used for loading the game resources
    */
   constructor(stage, resources) {
     this.view = {

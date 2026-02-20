@@ -17,23 +17,9 @@
   },
   "dependencies": {
     "@discord/embedded-app-sdk": "^1.9.0",
-    "@pixi/canvas-display": "^6.4.2",
-    "@pixi/canvas-prepare": "^6.4.2",
-    "@pixi/canvas-renderer": "^6.4.2",
-    "@pixi/canvas-sprite": "^6.4.2",
-    "@pixi/constants": "^6.4.2",
-    "@pixi/core": "^6.4.2",
-    "@pixi/display": "^6.4.2",
-    "@pixi/loaders": "^6.4.2",
-    "@pixi/prepare": "^6.4.2",
-    "@pixi/settings": "^6.4.2",
-    "@pixi/sound": "^4.2.1",
+    "@pixi/sound": "^6.0.1",
     "@pixi/sprite": "^6.4.2",
     "@pixi/sprite-animated": "^6.4.2",
-    "@pixi/spritesheet": "^6.4.2",
-    "@pixi/ticker": "^6.4.2",
-    "@pixi/tilemap": "^5.0.1",
-    "@tweenjs/tween.js": "^23.1.1",
-    "pixi.js": "^8.1.0"
+    "pixi.js": "^8.16.0"
   }
 }
