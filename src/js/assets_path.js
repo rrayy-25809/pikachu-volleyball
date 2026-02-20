@@ -5,6 +5,7 @@
 
 export const ASSETS_PATH = {
   SPRITE_SHEET: './sprite_sheet.json',
+  SPRITE_IMAGE: './sprite_sheet.png',
   TEXTURES: {},
   SOUNDS: {},
 };
@@ -46,11 +47,11 @@ TEXTURES.GAME_START = 'messages/ja/game_start.png';
 TEXTURES.SITTING_PIKACHU = 'sitting_pikachu.png';
 
 const SOUNDS = ASSETS_PATH.SOUNDS;
-SOUNDS.BGM = './bgm.mp3';
-SOUNDS.PIPIKACHU = './WAVE140_1.wav';
-SOUNDS.PIKA = './WAVE141_1.wav';
-SOUNDS.CHU = './WAVE142_1.wav';
-SOUNDS.PI = './WAVE143_1.wav';
-SOUNDS.PIKACHU = './WAVE144_1.wav';
-SOUNDS.POWERHIT = './WAVE145_1.wav';
-SOUNDS.BALLTOUCHESGROUND = './WAVE146_1.wav';
+SOUNDS.BGM = './sounds/bgm.mp3';
+SOUNDS.PIPIKACHU = './sounds/WAVE140_1.wav';
+SOUNDS.PIKA = './sounds/WAVE141_1.wav';
+SOUNDS.CHU = './sounds/WAVE142_1.wav';
+SOUNDS.PI = './sounds/WAVE143_1.wav';
+SOUNDS.PIKACHU = './sounds/WAVE144_1.wav';
+SOUNDS.POWERHIT = './sounds/WAVE145_1.wav';
+SOUNDS.BALLTOUCHESGROUND = './sounds/WAVE146_1.wav';

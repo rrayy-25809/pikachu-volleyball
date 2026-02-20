@@ -1,11 +1,9 @@
 import "./css/style.css";
 // import { DiscordSDK, DiscordSDKMock } from '@discord/embedded-app-sdk';
 import * as PIXI from "pixi.js";
-import { Assets, Spritesheet, Texture } from "pixi.js";
-import { PikachuVolleyball } from './js/pikavolley.js';
+import { Assets, Spritesheet } from "pixi.js";
 import { ASSETS_PATH } from './js/assets_path.js';
 import { setUpUI } from './js/ui.js';
-import { sound } from '@pixi/sound';
 
 const app = new PIXI.Application();
 const canvas = document.getElementById("game-canvas") as HTMLCanvasElement;
@@ -19,31 +17,38 @@ await app.init({
   preference: "canvas"  // 기존 forceCanvas 대체
 });
 
-// Load sprite sheet JSON first (no audio)
+// 먼저 스프라이트 시트 JSON만 로드 (오디오는 제외)
 const spritesheetPath = ASSETS_PATH.SPRITE_SHEET;
-const imagePath = './sprite_sheet.png';
+const imagePath = ASSETS_PATH.SPRITE_IMAGE;
 
-// Load the JSON manifest
-await Assets.load([spritesheetPath]);
-const spritesheetJSON = Assets.cache.get(spritesheetPath);
+// JSON 매니페스트 로드
+await Assets.load([spritesheetPath, imagePath]);
+const spritesheetJSON = await Assets.load(spritesheetPath);
+const imageTexture = await Assets.load(imagePath);
 
-// Load the image using Texture.from() for PIXI v8 compatibility
-const imageTexture = await Texture.from(imagePath);
+// 만약 spritesheetJSON이 Pixi의 Resource라면 .data를 사용해야 할 수도 있습니다.
+const rawData = spritesheetJSON.data ? spritesheetJSON.data : spritesheetJSON;
 
-// Create and parse the spritesheet
-const spritesheet = new Spritesheet(imageTexture, spritesheetJSON);
+if (!rawData || !rawData.meta) {
+    console.error("Spritesheet 데이터에 meta 정보가 없습니다!", rawData);
+}
+
+const spritesheet = new Spritesheet(imageTexture, rawData);
 await spritesheet.parse();
 
-// Create a resources object compatible with the view classes
+// 뷰 클래스에서 사용할 수 있도록 리소스 객체 생성
 const resources = {
   [ASSETS_PATH.SPRITE_SHEET]: {
     textures: spritesheet.textures
   }
 };
 
-// Audio unlock when the user interacts with the page
+// 사용자가 페이지와 상호작용한 뒤 오디오 활성화 (브라우저 자동 재생 제한 대응)
 window.addEventListener("pointerdown", async () => {
-  // Load audio assets after user gesture
+  const { PikachuVolleyball } = await import('./js/pikavolley.js');
+  const { sound } = await import('@pixi/sound');
+
+  // 사용자 제스처 이후에 오디오 에셋 로드
   const soundList = Object.values(ASSETS_PATH.SOUNDS);
   soundList.forEach(s => {
     if (typeof s !== "string") throw new Error("Invalid sound asset path");
@@ -51,28 +56,16 @@ window.addEventListener("pointerdown", async () => {
   
   try {
     await Assets.load(soundList);
-    sound.resumeAll();
+    sound.resumeAll(); // 일시 정지된 오디오 컨텍스트 재개
   } catch (error) {
     console.error("Failed to load audio assets:", error);
   }
-}, { once: true });
 
-// Start the game with the resources object
-setup(resources);
-
-/**
- * Set up the game and the full UI, and start the game.
- */
-function setup(resources: { [ASSETS_PATH.SPRITE_SHEET]: { textures: any; }; }) {
   const pikaVolley = new PikachuVolleyball(app.stage, resources);
   setUpUI(pikaVolley, app.ticker);
-  start(pikaVolley);
-}
-
-function start(pikaVolley: PikachuVolleyball) {
   app.ticker.maxFPS = pikaVolley.normalFPS;
   app.ticker.add(() => {
     pikaVolley.gameLoop();
   });
   app.ticker.start();
-}
+}, { once: true });
